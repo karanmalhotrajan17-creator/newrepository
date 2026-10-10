@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Microsoft Fabric Tutorial</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #242424;
+        }
+
+        .logo-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffb900, #f25022, #7fba00);
+            color: white;
+            font-weight: bold;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #374151;
+            margin-left: 22px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #0078d4;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0,120,212,.15), transparent 30%),
+                radial-gradient(circle at 90% 10%, rgba(127,186,0,.15), transparent 30%),
+                linear-gradient(135deg, #ffffff, #eef5ff);
+
+            padding: 90px 20px;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e5f2ff;
+            color: #0067b8;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .hero h1 span {
+            color: #0078d4;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+            font-size: 19px;
+            color: #4b5563;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 5px;
+            transition: .3s;
+        }
+
+        .btn-primary {
+            background: #0078d4;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #005ea6;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid #0078d4;
+            color: #0078d4;
+            background: white;
+        }
+
+        .btn-secondary:hover {
+            background: #eef7ff;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        /* ================= WHAT IS FABRIC ================= */
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .intro-text h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .intro-text p {
+            margin-bottom: 15px;
+            color: #4b5563;
+        }
+
+        .info-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,.07);
+        }
+
+        .info-box ul {
+            list-style: none;
+        }
+
+        .info-box li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-box li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #107c10;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* ================= ARCHITECTURE ================= */
+
+        .architecture {
+            background: #ffffff;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .flow-card {
+            width: 150px;
+            min-height: 115px;
+            padding: 20px 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #dbe3ec;
+            text-align: center;
+            transition: .3s;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.1);
+        }
+
+        .flow-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .flow-card h4 {
+            font-size: 15px;
+        }
+
+        .arrow {
+            font-size: 28px;
+            color: #0078d4;
+            font-weight: bold;
+        }
+
+        /* ================= FABRIC COMPONENTS ================= */
+
+        .components {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 15px;
+            padding: 28px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+            border-top: 4px solid #0078d4;
+            transition: .3s;
+        }
+
+        .component-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,.12);
+        }
+
+        .component-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .component-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .component-card p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* ================= TUTORIAL ================= */
+
+        .tutorial {
+            background: #f0f6fc;
+        }
+
+        .steps {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .step {
+            background: white;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,.06);
+        }
+
+        .step-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .step-header:hover {
+            background: #f8fafc;
+        }
+
+        .step-number {
+            background: #0078d4;
+            color: white;
+            min-width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .step-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .plus {
+            font-size: 24px;
+            color: #0078d4;
+        }
+
+        .step-content {
+            display: none;
+            padding: 0 25px 25px 72px;
+            color: #4b5563;
+        }
+
+        .step.active .step-content {
+            display: block;
+        }
+
+        .step.active .plus {
+            transform: rotate(45deg);
+        }
+
+        .step-content code {
+            display: block;
+            background: #111827;
+            color: #e5e7eb;
+            padding: 15px;
+            border-radius: 7px;
+            margin-top: 15px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+        }
+
+        /* ================= DATA FLOW ================= */
+
+        .data-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .data-box {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .data-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #0078d4;
+        }
+
+        /* ================= EXAMPLE ================= */
+
+        .example {
+            background: white;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #f8fbff, #ffffff);
+            border: 1px solid #dce7f3;
+            border-radius: 18px;
+            padding: 35px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .example-card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .example-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .example-item {
+            flex: 1;
+            min-width: 130px;
+            text-align: center;
+            padding: 18px;
+            border-radius: 10px;
+            background: #f3f7fb;
+        }
+
+        /* ================= FAQ ================= */
+
+        .faq {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        .faq-question {
+            padding: 18px 22px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 22px 20px;
+            color: #6b7280;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: #d1d5db;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .components {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .data-flow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .components {
+                grid-template-columns: 1fr;
+            }
+
+            .data-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 65px 15px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .flow {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="navbar">
+
+        <div class="logo">
+            <div class="logo-box">F</div>
+            Microsoft Fabric
+        </div>
+
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#components">Components</a>
+            <a href="#tutorial">Tutorial</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            Microsoft Fabric Tutorial
+        </span>
+
+        <h1>
+            Learn How <span>Microsoft Fabric</span> Works
+        </h1>
+
+        <p>
+            Understand how data moves from different sources into OneLake,
+            gets transformed and analyzed, and finally becomes useful
+            business insights through Power BI.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#tutorial" class="btn btn-primary">
+                Start Tutorial
+            </a>
+
+            <a href="#architecture" class="btn btn-secondary">
+                View Architecture
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OVERVIEW ================= -->
+
+<section id="overview">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>What is Microsoft Fabric?</h2>
+
+            <p>
+                A unified analytics platform for working with data.
+            </p>
+
+        </div>
+
+
+        <div class="intro-grid">
+
+            <div class="intro-text">
+
+                <h3>One Platform for Data Analytics</h3>
+
+                <p>
+                    Microsoft Fabric brings multiple data and analytics
+                    capabilities together into one integrated environment.
+                </p>
+
+                <p>
+                    Instead of managing separate systems for data ingestion,
+                    engineering, warehousing, data science and reporting,
+                    Fabric provides a connected experience.
+                </p>
+
+                <p>
+                    At the center of Fabric is <strong>OneLake</strong>,
+                    which provides a unified logical data lake for the
+                    organization.
+                </p>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <ul>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Data integration
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Data engineering
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Data warehousing
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Data science
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Real-time analytics
+                    </li>
+
+                    <li>
+                        <span class="check">✓</span>
+                        Power BI analytics
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ARCHITECTURE ================= -->
+
+<section id="architecture" class="architecture">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Microsoft Fabric Architecture</h2>
+
+            <p>
+                A simplified view of how data moves through Fabric.
+            </p>
+
+        </div>
+
+
+        <div class="flow">
+
+            <div class="flow-card">
+
+                <div class="flow-icon">📁</div>
+
+                <h4>Data Sources</h4>
+
+                <small>
+                    SQL, Excel, APIs, Files
+                </small>
+
+            </div>
+
+
+            <div class="arrow">→</div>
+
+
+            <div class="flow-card">
+
+                <div class="flow-icon">🔄</div>
+
+                <h4>Data Factory</h4>
+
+                <small>
+                    Ingest & Orchestrate
+                </small>
+
+            </div>
+
+
+            <div class="arrow">→</div>
+
+
+            <div class="flow-card">
+
+                <div class="flow-icon">💾</div>
+
+                <h4>OneLake</h4>
+
+                <small>
+                    Central Data Lake
+                </small>
+
+            </div>
+
+
+            <div class="arrow">→</div>
+
+
+            <div class="flow-card">
+
+                <div class="flow-icon">⚙️</div>
+
+                <h4>Transform</h4>
+
+                <small>
+                    Clean & Prepare
+                </small>
+
+            </div>
+
+
+            <div class="arrow">→</div>
+
+
+            <div class="flow-card">
+
+                <div class="flow-icon">📊</div>
+
+                <h4>Power BI</h4>
+
+                <small>
+                    Reports & Insights
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COMPONENTS ================= -->
+
+<section id="components">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Microsoft Fabric Workloads</h2>
+
+            <p>
+                Major capabilities available inside Microsoft Fabric.
+            </p>
+
+        </div>
+
+
+        <div class="components">
+
+
+            <div class="component-card">
+
+                <div class="component-icon">🔄</div>
+
+                <h3>Data Factory</h3>
+
+                <p>
+                    Used to connect to data sources, move data,
+                    create pipelines and orchestrate data workflows.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">🏗️</div>
+
+                <h3>Data Engineering</h3>
+
+                <p>
+                    Build data transformation and processing
+                    solutions using lakehouses and Spark.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">💾</div>
+
+                <h3>OneLake</h3>
+
+                <p>
+                    Fabric's unified logical data lake designed
+                    to provide a central location for organizational data.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">🗄️</div>
+
+                <h3>Data Warehouse</h3>
+
+                <p>
+                    Provides SQL-based analytics and warehouse
+                    capabilities for structured analytical data.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">🧪</div>
+
+                <h3>Data Science</h3>
+
+                <p>
+                    Build machine learning experiments,
+                    notebooks and predictive analytics solutions.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">⚡</div>
+
+                <h3>Real-Time Intelligence</h3>
+
+                <p>
+                    Analyze streaming and event-based data
+                    for real-time scenarios.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">📈</div>
+
+                <h3>Power BI</h3>
+
+                <p>
+                    Create semantic models, reports and dashboards
+                    to visualize business information.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">🧠</div>
+
+                <h3>Semantic Models</h3>
+
+                <p>
+                    Organize business data into models that can
+                    be consumed by reporting and analytics tools.
+                </p>
+
+            </div>
+
+
+            <div class="component-card">
+
+                <div class="component-icon">☁️</div>
+
+                <h3>Fabric Capacity</h3>
+
+                <p>
+                    Provides the compute resources used by
+                    Fabric workloads.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DATA FLOW ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>How Data Flows Through Fabric</h2>
+
+            <p>
+                Example of a typical analytics pipeline.
+            </p>
+
+        </div>
+
+
+        <div class="data-flow">
+
+            <div class="data-box">
+
+                <strong>1. Collect</strong>
+
+                Data comes from databases,
+                applications, files and APIs.
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>2. Store</strong>
+
+                Data is stored in
+                Fabric's OneLake environment.
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>3. Transform</strong>
+
+                Data is cleaned,
+                transformed and prepared.
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>4. Analyze</strong>
+
+                Power BI and other
+                workloads analyze the data.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TUTORIAL ================= -->
+
+<section id="tutorial" class="tutorial">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Step-by-Step Microsoft Fabric Tutorial</h2>
+
+            <p>
+                Follow these steps to understand a basic Fabric workflow.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <!-- STEP 1 -->
+
+            <div class="step active">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">1</span>
+
+                        Create a Fabric Workspace
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        A workspace is a collaborative area where Fabric
+                        items such as lakehouses, pipelines, notebooks,
+                        warehouses and reports can be created.
+                    </p>
+
+                    <p>
+                        Start by creating or selecting a workspace
+                        in Microsoft Fabric.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">2</span>
+
+                        Connect Your Data
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        Fabric can connect to many different sources,
+                        including databases, files, cloud services and APIs.
+                    </p>
+
+                    <code>
+SQL Server → Fabric Data Factory
+Excel → Lakehouse
+REST API → Pipeline
+CSV → OneLake
+                    </code>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">3</span>
+
+                        Create a Lakehouse
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        A lakehouse combines capabilities commonly associated
+                        with data lakes and data warehouses.
+                    </p>
+
+                    <p>
+                        You can use a lakehouse to store files and tables
+                        and then process them using Fabric tools.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 4 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">4</span>
+
+                        Build a Data Pipeline
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        Create a Data Factory pipeline to automate
+                        the movement and processing of data.
+                    </p>
+
+                    <code>
+Source
+   ↓
+Copy Data
+   ↓
+Lakehouse
+   ↓
+Transform
+   ↓
+Destination
+                    </code>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 5 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">5</span>
+
+                        Transform the Data
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        Remove duplicate records, handle missing values,
+                        change data types and create calculated columns.
+                    </p>
+
+                    <code>
+Raw Data
+    ↓
+Clean Data
+    ↓
+Business Rules
+    ↓
+Analytics Data
+                    </code>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 6 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">6</span>
+
+                        Create a Semantic Model
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        A semantic model provides a business-friendly
+                        structure for analyzing data.
+                    </p>
+
+                    <p>
+                        Tables, relationships, measures and business
+                        calculations can be organized for reporting.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 7 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">7</span>
+
+                        Create a Power BI Report
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        Connect Power BI to the semantic model and create
+                        interactive reports and dashboards.
+                    </p>
+
+                    <code>
+Data
+  ↓
+Semantic Model
+  ↓
+Power BI
+  ↓
+Dashboard
+  ↓
+Business Decision
+                    </code>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 8 -->
+
+            <div class="step">
+
+                <div class="step-header" onclick="toggleStep(this)">
+
+                    <div class="step-title">
+
+                        <span class="step-number">8</span>
+
+                        Schedule and Monitor
+
+                    </div>
+
+                    <span class="plus">+</span>
+
+                </div>
+
+
+                <div class="step-content">
+
+                    <p>
+                        Once your pipeline is working, it can be scheduled
+                        to run automatically so that reports receive
+                        updated data.
+                    </p>
+
+                    <p>
+                        Monitor pipeline runs and investigate failures
+                        when they occur.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REAL WORLD EXAMPLE ================= -->
+
+<section class="example">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Real-World Example</h2>
+
+            <p>
+                Example: Sales analytics system
+            </p>
+
+        </div>
+
+
+        <div class="example-card">
+
+            <h3>Retail Sales Analytics</h3>
+
+            <p>
+                Imagine a company receives sales information from
+                stores, an e-commerce application and an SQL database.
+            </p>
+
+
+            <div class="example-flow">
+
+                <div class="example-item">
+
+                    🏪
+                    <br>
+                    Stores
+
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="example-item">
+
+                    🗄️
+                    <br>
+                    SQL Database
+
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="example-item">
+
+                    🔄
+                    <br>
+                    Data Factory
+
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="example-item">
+
+                    💾
+                    <br>
+                    OneLake
+
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="example-item">
+
+                    📊
+                    <br>
+                    Power BI
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LEARNING PATH ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Recommended Learning Order</h2>
+
+            <p>
+                A simple path for beginners.
+            </p>
+
+        </div>
+
+
+        <div class="data-flow">
+
+            <div class="data-box">
+
+                <strong>01</strong>
+
+                Understand Fabric
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>02</strong>
+
+                Learn OneLake & Lakehouse
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>03</strong>
+
+                Learn Data Factory
+
+            </div>
+
+
+            <div class="data-box">
+
+                <strong>04</strong>
+
+                Learn Power BI
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Frequently Asked Questions</h2>
+
+        </div>
+
+
+        <div class="faq">
+
+
+            <div class="faq-item">
+
+                <div class="faq-question"
+                     onclick="toggleFaq(this)">
+
+                    What is Microsoft Fabric?
+
+                </div>
+
+                <div class="faq-answer">
+
+                    Microsoft Fabric is an integrated analytics platform
+                    that brings together data integration, engineering,
+                    warehousing, data science, real-time analytics and
+                    Power BI capabilities.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question"
+                     onclick="toggleFaq(this)">
+
+                    What is OneLake?
+
+                </div>
+
+                <div class="faq-answer">
+
+                    OneLake is the unified logical data lake associated
+                    with Microsoft Fabric. It provides a common data
+                    foundation for Fabric workloads.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question"
+                     onclick="toggleFaq(this)">
+
+                    What is a Lakehouse?
+
+                </div>
+
+                <div class="faq-answer">
+
+                    A Fabric lakehouse provides a data storage and
+                    analytics environment combining concepts from
+                    data lakes and data warehouses.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question"
+                     onclick="toggleFaq(this)">
+
+                    Can Fabric work with SQL databases?
+
+                </div>
+
+                <div class="faq-answer">
+
+                    Yes. Fabric provides capabilities for connecting
+                    to and working with SQL-based data sources.
+
+                </div>
+
+            </div>
+
+
+            <div class="faq-item">
+
+                <div class="faq-question"
+                     onclick="toggleFaq(this)">
+
+                    Is Power BI part of Microsoft Fabric?
+
+                </div>
+
+                <div class="faq-answer">
+
+                    Yes. Power BI is one of the major workloads
+                    integrated into Microsoft Fabric.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <h3>Microsoft Fabric Tutorial</h3>
+
+    <p>
+        Learn • Build • Transform • Analyze
+    </p>
+
+    <br>
+
+    <p>
+        For official documentation, visit
+        <a href="https://learn.microsoft.com/fabric/"
+           target="_blank">
+            Microsoft Learn
+        </a>
+    </p>
+
+    <br>
+
+    <p>
+        © 2026 Microsoft Fabric Learning Guide
+    </p>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    function toggleStep(header) {
+
+        const step = header.parentElement;
+
+        step.classList.toggle("active");
+
+    }
+
+
+    function toggleFaq(question) {
+
+        const item = question.parentElement;
+
+        item.classList.toggle("active");
+
+    }
+
+
+    // Close other tutorial steps when opening one
+
+    document.querySelectorAll(".step-header").forEach(header => {
+
+        header.addEventListener("click", function () {
+
+            document.querySelectorAll(".step").forEach(step => {
+
+                if (step !== this.parentElement) {
+
+                    step.classList.remove("active");
+
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
